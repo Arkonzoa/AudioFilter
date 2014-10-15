@@ -1,5 +1,7 @@
 package gti310.tp2.audio;
 
+import gti310.tp2.io.FileSource;
+
 /**
  * An AudioFilter object will modify the input data and produce new values.
  * Each AudioFilter will specify its data source and data sink. Sources and
@@ -17,5 +19,5 @@ public interface AudioFilter {
 	 * Filter the input data.
 	 * The function should make sure the input data is valid beforehand.
 	 */
-	void process();
+	void process(FileSource file);
 }
