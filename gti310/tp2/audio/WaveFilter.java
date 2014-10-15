@@ -30,10 +30,15 @@ public class WaveFilter implements AudioFilter{
 			pop = file.pop(1000);
 			if(channels == 2){
 				while (pop != null) {
-					for (int i = 0; i < pop.length; i+=4){
-						byte[] sampleByte = Arrays.copyOfRange(pop, i, i+2);
-						int sample = byteToInt(sampleByte);
-						System.out.println(sample);
+					for (int i = 0; i < pop.length; i+=20){
+						byte[] sampleByteRight1 = Arrays.copyOfRange(pop, i, i+2);
+						byte[] sampleByteRight2 = Arrays.copyOfRange(pop, i+8, i+10);
+						byte[] sampleByteLeft1 = Arrays.copyOfRange(pop, i, i+2);
+						byte[] sampleByteLeft2 = Arrays.copyOfRange(pop, i+8, i+10);
+						int sampleLeft1 = byteToInt(sampleByteLeft1);
+						int sampleLeft2 = byteToInt(sampleByteLeft2);
+						int sampleRight1 = byteToInt(sampleByteRight1);
+						int sampleRight2 = byteToInt(sampleByteRight2);
 					}
 					pop = file.pop(1000);
 				}
