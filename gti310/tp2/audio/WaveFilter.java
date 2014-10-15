@@ -5,11 +5,12 @@ import java.util.Arrays;
 import gti310.tp2.io.FileSource;
 
 public class WaveFilter implements AudioFilter{
+	private int channels = 0;
+	private byte[] newSamples;
 	@Override
 	public void process(FileSource file) {
 		// TODO Auto-generated method stub
 		byte[] pop = file.pop(44);
-		
 		
 		byte[] headerWav = Arrays.copyOfRange(pop, 8, 12);
 		int wave = byteArrayToInt(headerWav);
@@ -22,6 +23,33 @@ public class WaveFilter implements AudioFilter{
 		byte[] headerBits = Arrays.copyOfRange(pop, 34, 36);
 		int bits = byteToInt(headerBits);
 		if(checkWave(wave, audioFormat, channel, sampleRate, bits)){
+			
+			pop = file.pop(1000);
+			if(channels == 2){
+				while (pop != null) {
+					for (int i = 0; i < pop.length; i+=4){
+						byte[] sampleByte = Arrays.copyOfRange(pop, i, i+2);
+						int sample = byteToInt(sampleByte);
+						System.out.println(sample);
+					}
+					pop = file.pop(1000);
+				}
+			}
+			else
+				if(channels == 1){
+					while (pop != null){
+						for (int i = 0; i < pop.length; i+=10){
+							byte[] sampleByte1 = Arrays.copyOfRange(pop, i, i+2);
+							byte[] sampleByte2 = Arrays.copyOfRange(pop, i + 8, i+10);
+							int sample1 = byteToInt(sampleByte1);
+							int sample2 = byteToInt(sampleByte2);
+							int mid = (sample1 + sample2 / 2);
+							System.out.println(mid);
+						}
+						pop = file.pop(1000);
+					}
+				}
+			
 			
 		}
 		else {
@@ -53,6 +81,7 @@ public class WaveFilter implements AudioFilter{
 		
 		if (channel == 1 || channel == 2){
 			flag = true;
+			channels = channel;
 		}
 		else {
 			flag = false;
