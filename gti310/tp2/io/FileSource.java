@@ -65,7 +65,9 @@ public class FileSource {
 			/* read the number of bytes asked for, or the amount left in the
 			 * file */
 			_reader.read(buffer);
-			
+			if (_reader.available() == 0){
+				throw new IOException();
+			}
 			/* return what was read */
 			return buffer;
 		} catch (IOException e) {

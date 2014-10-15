@@ -12,6 +12,9 @@ public class WaveFilter implements AudioFilter{
 		// TODO Auto-generated method stub
 		byte[] pop = file.pop(44);
 		
+		//Keep same header, will modify the sample rate later
+		setNewSamples(pop);
+		
 		byte[] headerWav = Arrays.copyOfRange(pop, 8, 12);
 		int wave = byteArrayToInt(headerWav);
 		byte[] headerAudioFormat = Arrays.copyOfRange(pop, 20, 22);
@@ -116,5 +119,11 @@ public class WaveFilter implements AudioFilter{
 	public static int byteToInt(byte[] b){
 		return b[0] & 0xFF |
 				(b[1] & 0xFF) << 8;
+	}
+	public byte[] getNewSamples() {
+		return newSamples;
+	}
+	public void setNewSamples(byte[] newSamples) {
+		this.newSamples = newSamples;
 	}
 }
